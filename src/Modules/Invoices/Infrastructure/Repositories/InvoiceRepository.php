@@ -24,7 +24,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $invoiceModel->save();
 
         foreach ($invoice->getProductLines() as $productLine) {
-            $productLineModel = new ProductLineModel();
+            $productLineModel = ProductLineModel::find($productLine->getId()) ?? new ProductLineModel();
             $productLineModel->id = $productLine->getId();
             $productLineModel->invoice_id = $invoiceModel->id;
             $productLineModel->name = $productLine->getName();

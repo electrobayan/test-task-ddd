@@ -39,4 +39,9 @@ readonly class ProductLine
     {
         return $this->price;
     }
+
+    public function isValid(): bool
+    {
+        return is_int($this->quantity) && $this->quantity > 0 && is_int($this->price) && $this->price > 0;
+    }
 }
