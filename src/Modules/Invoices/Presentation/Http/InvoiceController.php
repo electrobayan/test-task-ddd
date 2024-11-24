@@ -7,7 +7,9 @@ namespace Modules\Invoices\Presentation\Http;
 use Illuminate\Routing\Controller;
 use Modules\Invoices\Api\Dtos\CreateInvoiceData;
 use Modules\Invoices\Api\Dtos\CreateProductLineData;
+use Modules\Invoices\Api\Dtos\SendInvoiceData;
 use Modules\Invoices\Presentation\Requests\CreateInvoiceRequest;
+use Modules\Invoices\Presentation\Requests\SendInvoiceRequest;
 use Modules\Invoices\Presentation\Resources\InvoiceResource;
 use Modules\Invoices\Application\Services\ViewInvoiceService;
 use Modules\Invoices\Application\Services\CreateInvoiceService;
@@ -56,9 +58,16 @@ final class InvoiceController extends Controller
         return new InvoiceResource($invoice);
     }
 
-    public function send(string $id): InvoiceResource
+    public function send(string $id, SendInvoiceRequest $request): InvoiceResource
     {
-        $invoice = $this->sendInvoiceService->execute($id);
+        $validatedData = $request->validated();
+
+        $sendInvoiceDto = new SendInvoiceData(
+            !empty($validatedData['subject']) ? $validatedData['subject'] : '',
+            !empty($validatedData['message']) ? $validatedData['message'] : '',
+        );
+
+        $invoice = $this->sendInvoiceService->execute($id, $sendInvoiceDto);
 
         return new InvoiceResource($invoice);
     }
