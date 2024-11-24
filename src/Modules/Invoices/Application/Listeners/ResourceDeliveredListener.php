@@ -8,7 +8,7 @@ use Modules\Invoices\Domain\Exceptions\InvalidInvoiceOperationException;
 use Modules\Notifications\Api\Events\ResourceDeliveredEvent;
 use Modules\Invoices\Domain\Repositories\InvoiceRepositoryInterface;
 
-readonly class ResourceDeliveredListener
+final readonly class ResourceDeliveredListener
 {
     public function __construct(
         private InvoiceRepositoryInterface $invoiceRepository
